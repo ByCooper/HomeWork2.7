@@ -1,29 +1,29 @@
 import java.text.DecimalFormat;
 import java.util.*;
 
-public class EmployeeBook {
+public class EmployeeBook implements EmployeeBookService{
     //Операции по определенному сотруднику осуществляются по фамилии и имени
     private final Map<String, Employee> employees = new HashMap<>();
-
+    @Override
     public void add(Employee item) {
         employees.put(item.getMiddleName() + " " + item.getFirstName(), item);
 
     }
-
+    @Override
     public void remove(String s) {
         if (!employees.containsKey(s)) {
             throw new NotFoundException("Сотрудник не найден или некоректно введены фамилия или имя");
         }
         employees.remove(s);
     }
-
+    @Override
     public void findUser(String s) {
         if (!employees.containsKey(s)) {
             throw new NotFoundException("Сотрудник не найден или некоректно введены фамилия или имя");
         }
         System.out.println(employees.get(s));
     }
-
+    @Override
     public void printAll() {
         for (Map.Entry<String, Employee> element : employees.entrySet()) {
             System.out.println(element.getValue());
@@ -37,7 +37,7 @@ public class EmployeeBook {
             }
         }
     }
-
+    @Override
     public void allSalary() {
         int sum = 0;
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -45,7 +45,7 @@ public class EmployeeBook {
         }
         System.out.println("Ежемесячные расходы на зарплату сотрудников предприятия составляет " + sum + " RUB");
     }
-
+    @Override
     public void minSalary() {
         Set<Integer> salary = new TreeSet<>();
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -58,7 +58,7 @@ public class EmployeeBook {
             }
         }
     }
-
+    @Override
     public void maxSalary() {
         Set<Integer> salary = new TreeSet<>();
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -71,7 +71,7 @@ public class EmployeeBook {
             }
         }
     }
-
+    @Override
     public void averageSalary() {
         int sum = 0;
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -80,20 +80,20 @@ public class EmployeeBook {
         double average = (double) sum / employees.size();
         System.out.println("Среднее занчение зарплат равно " + new DecimalFormat("###,###.##").format(average) + " RUB");
     }
-
+    @Override
     public void allName() {
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
             System.out.println(item.getValue().getMiddleName() + " " + item.getValue().getFirstName() + " " + item.getValue().getLastName());
         }
     }
-
+    @Override
     public void indexSalary(int percent) {
         System.out.println("Повышение зарплаты на " + percent + " %");
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
             item.getValue().setSalary(item.getValue().getSalary() + (item.getValue().getSalary() * percent) / 100);
         }
     }
-
+    @Override
     public void getMinimalSalaryInOffice(int office) {
         Set<Integer> salaryOffice = new TreeSet<>();
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -109,7 +109,7 @@ public class EmployeeBook {
             }
         }
     }
-
+    @Override
     public void getMaximalSalaryInOffice(int office) {
         Set<Integer> salaryOffice = new TreeSet<>();
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -125,7 +125,7 @@ public class EmployeeBook {
             }
         }
     }
-
+    @Override
     public void getAllSalaryOffice(int office) {
         int sum = 0;
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -135,7 +135,7 @@ public class EmployeeBook {
         }
         System.out.println("Сумма затрат на зарплату по отделу № " + office + " составляет " + sum + " RUB");
     }
-
+    @Override
     public void getAverageSalaryOffice(int office) {
         int sum = 0;
         int k = 0;
@@ -148,7 +148,7 @@ public class EmployeeBook {
         double averageSalaryOffice = (double) sum / k;
         System.out.println("Средняя зарплата по отделу № " + office + " составляет " + new DecimalFormat("###,###.##").format(averageSalaryOffice) + " RUB");
     }
-
+    @Override
     public void getIndexSalaryOffice(int office, int percent) {
         System.out.println("Зарплата сотрудников " + office + " отдела, после индексации на " + percent + " %");
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -158,12 +158,12 @@ public class EmployeeBook {
         }
         printAllInOffice(office);
     }
-
+    @Override
     public void getAllEmployeeOffice(int office) {
         System.out.println("Сотрудники " + office + " отдела:");
         printAllInOffice(office);
     }
-
+    @Override
     public void sourceSalaryOfEmployeeLow(int salary) {
         System.out.println("Сотрудники, чья зарплата меньше " + salary + " рублей");
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -172,7 +172,7 @@ public class EmployeeBook {
             }
         }
     }
-
+    @Override
     public void sourceSalaryOfEmployeeHigh(int salary) {
         System.out.println("Сотрудники, чья зарплата больше " + salary + " рублей");
         for (Map.Entry<String, Employee> item : employees.entrySet()) {
@@ -181,21 +181,21 @@ public class EmployeeBook {
             }
         }
     }
-
+    @Override
     public void changeSalary(String mName, int salary) {
         if (!employees.containsKey(mName)) {
             throw new NotFoundException("Сотрудник не найден или некоректно введены фамилия или имя");
         }
         employees.get(mName).setSalary(salary);
     }
-
+    @Override
     public void changeOffice(String mName, int office) {
         if (!employees.containsKey(mName)) {
             throw new NotFoundException("Сотрудник не найден или некоректно введены фамилия или имя");
         }
         employees.get(mName).setOffice(office);
     }
-
+    @Override
     public void printEmployeeWithOffice() {
         for (int i = 1; i <= 5; i++) {
             System.out.println("Список сотрудников " + i + " отдела: ");
